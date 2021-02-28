@@ -16,28 +16,15 @@
         </li>
         @guest
         @else
-          @if(Auth::user()->role_id == 1)
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="/all">All Boxes</a>
-              </div>
+            <li class="nav-item active d-flex align-items-center mr-2 my-2">
+              <a class="nav-link badge badge-warning p-2" href="/new">Generate Excel</a>
             </li>
-          @else
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="/new">New Box</a>
-                <a class="dropdown-item" href="/all">All Boxes</a>
-                <a class="dropdown-item" href="#">Default</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Default</a>
-              </div>
+            <li class="nav-item active d-flex align-items-center mr-2 my-2">
+              <a class="nav-link badge badge-danger p-2" href="/all">All Excel Files</a>
             </li>
-          @endif
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Export all</a>
-          </li>
+            <li class="nav-item active d-flex align-items-center mr-2 my-2">
+              <a class="nav-link badge badge-info p-2" href="/import">Import Excel</a>
+            </li>
         @endguest
       </ul>
       <div>

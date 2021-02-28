@@ -29,3 +29,10 @@ Route::get('/new', [App\Http\Controllers\BoxController::class, 'new'])->name('ne
 Route::get('/all', [App\Http\Controllers\BoxController::class, 'all'])->name('all');
 Route::post('/store', [App\Http\Controllers\BoxController::class, 'store'])->name('store');
 Route::post('/store/{id}', [App\Http\Controllers\BoxController::class, 'delete'])->name('delete');
+
+
+// Excel 
+Route::post('/generateExcel', [App\Http\Controllers\ExcelController::class, 'generateExcel'])->name('generateExcel');
+Route::get('/import', [App\Http\Controllers\BoxController::class, 'import'])->name('import');
+Route::post('/upload', [App\Http\Controllers\BoxController::class, 'upload'])->name('upload');
+Route::get('/download/{id}', [App\Http\Controllers\BoxController::class, 'download'])->name('download');

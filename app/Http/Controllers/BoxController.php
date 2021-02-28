@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 use App\Models\Box;
+use App\Models\ExcelFile;
 use Auth;
 // use App\Models\Box;
 
@@ -19,19 +22,11 @@ class BoxController extends Controller
         // dd($user->role_id);
     }
     public function all() {
-        $user = Auth::user();
         if(Auth::check()){
-            if($user->role_id == 1){
-                $boxes = Box::All();
-                return view('boxes.all',[
-                    'boxes' => $boxes
-                ]);
-            }else{
-                $boxes = Box::where('technicien',Auth::user()->name)->get();
-                return view('boxes.all',[
-                    'boxes' => $boxes
-                ]);
-            }
+            $files = ExcelFile::All();
+            return view('boxes.all',[
+                'files' => $files
+            ]);
         }
         // dd($boxes);
         return abort(404);
@@ -84,5 +79,29 @@ class BoxController extends Controller
             return redirect()->route('all');
         }
         return abort(404);
+    }
+
+    public function import() {
+        return view('boxes.import');
+    }
+
+    public function upload(Request $request){
+        $excelFile = new ExcelFile();
+        $excelFile->supplier = $request->supplier;
+        $excelFile->reference = $request->reference;
+        $excelFile->technicien = Auth::user()->name;
+        // $path = explode('/',$request->file->store('public'));
+        $path = $request->file->store('public');
+        $path = explode('/',$path);
+        $excelFile->path = $path[1];
+        $excelFile->save();
+        $request->file->store('public');
+        return 'Success !!';
+    }
+    public function download($id){
+        $excelFile = ExcelFile::find($id);
+        $file= public_path(). "\\storage\\" . $excelFile->path;
+        $headers = array('Content-Type: application/xlsx');
+        return Response::download($file,$excelFile->path, $headers);  
     }
 }
